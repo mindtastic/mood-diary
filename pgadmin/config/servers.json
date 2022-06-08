@@ -5,7 +5,10 @@
             "Group": "Servers",
             "Port": 5432,
             "Username": "root",
-            "Host": "postgres"
+            "PassFile": "/.pgpass",
+            "Host": "postgres",
+            "SSLMode": "prefer",
+            "MaintenanceDB": "postgres"
         }
     }
 }
