@@ -1,0 +1,11 @@
+{
+    "Servers": {
+        "1": {
+            "Name": "Mood Diary DB",
+            "Group": "Servers",
+            "Port": 5432,
+            "Username": "root",
+            "Host": "postgres"
+        }
+    }
+}
