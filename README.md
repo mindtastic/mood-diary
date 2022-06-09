@@ -4,6 +4,25 @@ Mood Diary service using \~\~ExpressJS and PostgreSQL\~\~
 
 ## Run in Docker
 
-Run `docker build -t mindtastic/mood-diary .`
+Run `docker compose up`
 
-Run `docker run -p 8888:80 mindtastic/mood-diary` to have the service available on `localhost:8888`
+## Database
+
+This setup runs PGAdmin on `localhost:5433` and PostgreSQL on `localhost:5432`.
+
+### Schema
+
+![DB SQL Schema](/docs/db.png)
+
+### Credentials
+
+*PGAdmin*
+
+Username: `admin@mindtastic.lol`  
+Password: `root`
+
+*PostgreSQL*
+
+Database: `diary`  
+Username: `root`  
+Password: `root`

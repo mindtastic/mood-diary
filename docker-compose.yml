@@ -1,0 +1,41 @@
+version: '3.8'
+
+volumes:
+  postgres:
+  pgadmin:
+
+
+services:
+  postgres:
+    image: postgres:14.1-alpine
+    container_name: md-postgres
+    environment:
+      - POSTGRES_DB=diary
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres:/var/lib/postgresql/data
+      - ./db_seed:/docker-entrypoint-initdb.d:ro
+
+  pgadmin:
+    image: dpage/pgadmin4:6.10
+    container_name: md-pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@mindtastic.lol
+      - PGADMIN_DEFAULT_PASSWORD=root
+    depends_on:
+      - postgres
+    ports:
+      - 5433:80
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+      - ./pgadmin/config/servers.json:/pgadmin4/servers.json
+  mood-diary:
+    build: ./app
+    container_name: mood-diary
+    depends_on:
+      - postgres
+    ports:
+      - 8888:80

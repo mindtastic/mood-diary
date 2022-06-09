@@ -7,4 +7,4 @@ COPY . .
 RUN yarn
 
 EXPOSE 80
-CMD ["node", "index.js"]
+CMD ["node", "server.js"]
