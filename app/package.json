@@ -4,7 +4,8 @@
     "description": "Mood Diary service for Mindtastic",
     "main": "server.js",
     "scripts": {
-        "devStart": "nodemon server.js"
+        "start": "node server.js",
+        "devStart": "nodemon -L server.js"
     },
     "repository": {
         "type": "git",
@@ -17,7 +18,8 @@
     },
     "homepage": "https://github.com/mindtastic/mood-diary#readme",
     "dependencies": {
-        "express": "^4.18.1"
+        "express": "^4.18.1",
+        "pg": "^8.7.3"
     },
     "devDependencies": {
         "nodemon": "^2.0.16"
