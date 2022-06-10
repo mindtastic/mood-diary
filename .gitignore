@@ -129,3 +129,4 @@ dmypy.json
 .pyre/
 
 /app/node_modules
+/app/*.lock

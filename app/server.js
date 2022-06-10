@@ -1,17 +1,42 @@
 var express = require('express');
 var app = express();
 
-const { Pool } = require('pg');
+const { Sequelize, DataTypes, Op } = require('sequelize');
 
-const connectionString = 'postgres://root:root@127.0.0.1:5432/diary';
+const connectionString = 'postgres://root:root@postgres:5432/diary';
+const sequelize = new Sequelize(connectionString);
 
-const pool = new Pool({
-    user: 'root',
-    password: 'root',
-    host: 'postgres',
-    database: 'diary',
-    port: 5432,
-})
+sequelize.authenticate().then(() => console.log("\x1b[32m", "Successfully authenticated to PostgreSQL", "\x1b[0m")).catch((err) => console.log("\x1b[31m", "Error authenticating to PostgreSQL", err, "\x1b[0m"));
+
+const Mood = sequelize.define('Mood', {
+    mood_id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false
+    },
+    user_id: {
+        type: DataTypes.UUID,
+        allowNull: false
+    },
+    mood_day: {
+        type: DataTypes.DATE,
+        allowNull: false
+    },
+    mood_type: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    mood_descr: {
+        type: DataTypes.STRING
+    }
+}, {
+    schema: 'dev',
+    tableName: 'mood_entries',
+    timestamps: false
+});
+
+Mood.sync().then(() => console.log("\x1b[32m", "Successfully synchronized database model.", "\x1b[0m"));
 
 app.get('/', function (req, res) {
     res.send("Hello world!");
@@ -19,24 +44,13 @@ app.get('/', function (req, res) {
 
 app.get('/diary/:userId', (req, res) => {
 
-    let query = 'SELECT * FROM dev.mood_entries WHERE user_id=$1';
-    let values = [req.params.userId];
-
-    console.log(query);
-
-    pool.query(query, values, (err, resp) => {
-        if (err) {
-            console.log(err);
-
-            res.status(500).send(err);
-        } else {
-            console.log(resp);
-
-            res.status(200).send(resp);
+    Mood.findAll({
+        where: {
+            user_id: {
+                [Op.eq]: req.params.userId
+            }
         }
-    });
-
-    //res.send("GET user" + req.params.userId);
+    }).then((result) => res.status(200).send(result)).catch((err) => res.status(500).send(err))
 })
 
 app.post('/diary/:userId', (req, res) => {
