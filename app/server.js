@@ -5,10 +5,9 @@ const { Sequelize, DataTypes, Op } = require('sequelize');
 const connectionString = 'postgres://root:root@postgres:5432/diary';
 const sequelize = new Sequelize(connectionString);
 
-sequelize.authenticate().then(() => console.log("\x1b[32m", "Successfully authenticated to PostgreSQL", "\x1b[0m")).catch((err) => console.log("\x1b[31m", "Error authenticating to PostgreSQL", err, "\x1b[0m"));
-
 const Mood = require("./model.js")(sequelize, DataTypes);
 
+sequelize.authenticate().then(() => console.log("\x1b[32m", "Successfully authenticated to PostgreSQL", "\x1b[0m"));
 Mood.sync().then(() => console.log("\x1b[32m", "Successfully synchronized database model.", "\x1b[0m"));
 
 app.get('/', function (req, res) {
