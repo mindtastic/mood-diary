@@ -1,6 +1,5 @@
 var express = require('express');
 var app = express();
-
 const { Sequelize, DataTypes, Op } = require('sequelize');
 
 const connectionString = 'postgres://root:root@postgres:5432/diary';
@@ -8,33 +7,7 @@ const sequelize = new Sequelize(connectionString);
 
 sequelize.authenticate().then(() => console.log("\x1b[32m", "Successfully authenticated to PostgreSQL", "\x1b[0m")).catch((err) => console.log("\x1b[31m", "Error authenticating to PostgreSQL", err, "\x1b[0m"));
 
-const Mood = sequelize.define('Mood', {
-    mood_id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-        allowNull: false
-    },
-    user_id: {
-        type: DataTypes.UUID,
-        allowNull: false
-    },
-    mood_day: {
-        type: DataTypes.DATE,
-        allowNull: false
-    },
-    mood_type: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    mood_descr: {
-        type: DataTypes.STRING
-    }
-}, {
-    schema: 'dev',
-    tableName: 'mood_entries',
-    timestamps: false
-});
+const Mood = require("./model.js")(sequelize, DataTypes);
 
 Mood.sync().then(() => console.log("\x1b[32m", "Successfully synchronized database model.", "\x1b[0m"));
 
