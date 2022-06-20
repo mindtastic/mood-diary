@@ -36,6 +36,9 @@ services:
   mood-diary:
     build: ./app
     container_name: mood-diary
+    command: yarn run devStart
+    volumes:
+      - ./app:/app
     depends_on:
       - postgres
     ports:

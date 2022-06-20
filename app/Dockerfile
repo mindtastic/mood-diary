@@ -2,9 +2,10 @@ FROM node:alpine
 
 WORKDIR /app
 
-COPY . .
-
+COPY package.json ./
 RUN yarn
 
+COPY . .
+
 EXPOSE 80
-CMD ["node", "server.js"]
+CMD ["yarn", "run", "start"]
