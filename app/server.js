@@ -10,6 +10,10 @@ const Mood = require("./model.js")(sequelize, DataTypes);
 sequelize.authenticate().then(() => console.log("\x1b[32m", "Successfully authenticated to PostgreSQL", "\x1b[0m"));
 Mood.sync().then(() => console.log("\x1b[32m", "Successfully synchronized database model.", "\x1b[0m"));
 
+
+app.use(express.json());
+
+
 app.get('/', function (req, res) {
     res.send("Hello world!");
 });
@@ -26,7 +30,23 @@ app.get('/diary/:userId', (req, res) => {
 })
 
 app.post('/diary/:userId', (req, res) => {
-    res.send("POST user" + req.params.userId);
+    if (!req.body) {
+        res.status(400).send("Request body undefined");
+        return;
+    }
+
+    let timestamp = req.body.timestamp;
+
+    if (!timestamp) {
+        timestamp = new Date();
+    }
+
+    Mood.create({
+        user_id: req.params.userId,
+        mood_day: timestamp,
+        mood_type: req.body.type,
+        mood_descr: req.body.description
+    }).then(() => res.status(200).send(new_mood));
 })
 
 app.put('/diary/:userId', (req, res) => {
