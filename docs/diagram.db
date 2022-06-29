@@ -1,0 +1,18 @@
+// Created using dbdiagram.io
+
+Table User as U {
+  uid        uuid [pk]
+}
+
+Table MoodEntry as Me {
+  id           int [pk, increment] // auto-increment
+  mood_day     datetime
+  mood_type    string
+  mood_descr   string
+  
+  // ForenKey for userId 
+  author_id int [ref: > U.uid]
+}
+
+
+
