@@ -1,6 +1,9 @@
 var User = require("../db/index.js").User
 var Mood = require("../db/index.js").Mood
+var authMiddleware = require('../middleware/auth.js');
+
 module.exports = app => {
+    app.use(authMiddleware)
 
     // Testing connection endpoint
     app.get('/', function (req, res) {
@@ -9,11 +12,11 @@ module.exports = app => {
 
     // Get user by userID
     app.get('/diary/:userId', (req, res) => {
-        User.findOrCreate({ 
-            where: {
-                uid: req.params.userId
-            }
-        }).then((result) => res.status(200).send(result)).catch((err) => res.status(500).send(err));
+        const user = req.user;
+        
+        return res.status(200).json({
+            user: user,
+        });
     })
 
     // Get all mood entires for user
