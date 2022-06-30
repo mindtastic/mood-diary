@@ -1,10 +1,10 @@
 // Created using dbdiagram.io
 
-Table User as U {
+Table users as U {
   uid        uuid [pk]
 }
 
-Table MoodEntry as Me {
+Table mood_entries as Me {
   id           int [pk, increment] // auto-increment
   mood_day     datetime
   mood_type    string

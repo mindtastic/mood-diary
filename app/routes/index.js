@@ -9,15 +9,11 @@ module.exports = app => {
 
     // Get user by userID
     app.get('/diary/:userId', (req, res) => {
-        let uid = req.params.userId;
-       
         User.findOrCreate({ 
             where: {
                 uid: req.params.userId
             }
         }).then((result) => res.status(200).send(result)).catch((err) => res.status(500).send(err));
-
-
     })
 
     // Get all mood entires for user

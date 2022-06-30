@@ -8,10 +8,11 @@ const sequelize = new Sequelize(connectionString);
 const Mood = MoodModel(sequelize, Sequelize);
 const User = UserModel(sequelize, Sequelize);
 
-Mood.hasOne(User, {
+// TODO
+Mood.belongsTo(User, {
   foreignKey: 'uid'
 });
-
+// 1:N
 User.hasMany(Mood, {
   foreignKey: 'author_id'
 });
@@ -20,5 +21,5 @@ module.exports = {
   sequelize,
   Sequelize,
   Mood,
-  User
+  User,
 }
