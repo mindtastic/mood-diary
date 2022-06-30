@@ -34,7 +34,7 @@ services:
       - ./pgadmin/config/servers.json:/pgadmin4/servers.json
 
   mood-diary:
-    build: ./app
+    build: .
     container_name: mood-diary
     command: yarn run devStart
     volumes:
