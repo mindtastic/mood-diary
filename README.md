@@ -22,7 +22,7 @@ This setup runs PGAdmin on `localhost:5433` and PostgreSQL on `localhost:5432`.
 
 ### Schema
 
-![DB SQL Schema](/docs/db.png)
+![DB SQL Schema](/docs/dbModel.png)
 
 ### Credentials
 
