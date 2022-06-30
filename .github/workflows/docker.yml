@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Build image
-        run: docker build ./app --tag "ghcr.io/${GITHUB_REPOSITORY}:${GITHUB_SHA}"
+        run: docker build . --tag "ghcr.io/${GITHUB_REPOSITORY}:${GITHUB_SHA}"
 
       - name: Log in to registry
         # This is where you will update the PAT to GITHUB_TOKEN
