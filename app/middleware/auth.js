@@ -1,28 +1,30 @@
 const uuid = require('uuid');
-const User = require('../db').User;
+const db = require('../db');
 
 const authMiddleware = (req, res, next) => {
     const userId = req.get('X-User-Id');
     if (!userId) {
-        return res.status(401).json({ error: 'Unauthorized '});
+        return res.status(401).json({ error: 'Unauthorized ' });
     }
 
     try {
+        
         uuid.parse(userId);
+        
     } catch (e) {
         return res.status(401).json({ error: 'Invalid userId' });
     }
 
-    User.findOrCreate({ 
+    db.user.findOrCreate({
         where: {
             uid: userId
         }
-    })
-    .then((user) => {
-        req.user = user;
+    }).then(([user]) => {
+        req.user = {
+          uid: user.uid,
+        };
         next();
-    })
-    .catch(next);
+      }).catch (next);
 };
 
 module.exports = authMiddleware;
