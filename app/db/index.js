@@ -1,25 +1,35 @@
 const Sequelize = require('sequelize');
-const MoodModel = require('./models/mood.js');
-const UserModel = require('./models/user.js');
+const dbConfig = require('./config/db.conf.js');
 
-const connectionString = 'postgres://root:root@postgres:5432/diary';
-const sequelize = new Sequelize(connectionString);
-
-const Mood = MoodModel(sequelize, Sequelize);
-const User = UserModel(sequelize, Sequelize);
-
-// TODO
-Mood.belongsTo(User, {
-  foreignKey: 'uid'
-});
-// 1:N
-User.hasMany(Mood, {
-  foreignKey: 'author_id'
+// Create database
+const sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, {
+  host: dbConfig.host,
+  dialect: dbConfig.dialect,
+  pool: {
+    max: dbConfig.pool.max,
+    min: dbConfig.pool.min,
+    acquire: dbConfig.pool.acquire,
+    idle: dbConfig.pool.idle,
+  },
 });
 
-module.exports = {
-  sequelize,
-  Sequelize,
-  Mood,
-  User,
-}
+const db = {};
+
+db.Sequelize = Sequelize;
+db.sequelize = sequelize;
+
+db.user = require('./models/user.js')(sequelize, Sequelize);
+db.mood = require('./models/mood.js')(sequelize, Sequelize);
+
+
+// N:1 mood entires belongsto a user
+db.mood.belongsTo(db.user,{ foreignKey: 'author_id' });
+// 1:N user can have multiple mood entries
+db.user.hasMany(db.mood, { foreignKey: 'author_id' });
+
+module.exports = db;
+
+
+
+
+

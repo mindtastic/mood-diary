@@ -3,8 +3,7 @@ module.exports = (sequelize, DataTypes) => {
         uid: {
             type: DataTypes.UUID,
             primaryKey: true,
-            allowNull: false,
-            field: 'uid'
+            allowNull: false
         }
     }, {
         schema: 'dev',
