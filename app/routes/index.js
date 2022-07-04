@@ -1,7 +1,7 @@
 import db from '../db';
 import authMiddleware from '../middleware/auth';
 import validateError from '../middleware/validationError';
-import { pipe, usingPipe } from '../utils';
+import { usingPipe } from '../utils';
 
 const applyMiddlewares = (app) => {
   app.use(authMiddleware);
@@ -96,5 +96,5 @@ const defineRoutes = (app) => {
 };
 
 export default (app) => {
-  pipe(applyMiddlewares, defineRoutes, applyErrorHandlers)(app);
+  usingPipe(app, applyMiddlewares, defineRoutes, applyErrorHandlers);
 };
