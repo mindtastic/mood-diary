@@ -6,11 +6,8 @@ WORKDIR /mood
 # Copies project requirements into working directory
 COPY package*.json ./
 
-# Copy app code 
-COPY ./app ./app
-
 # Install dependencies
-RUN npm ci --production
+RUN npm ci
 
 # Command instructions
-CMD ["npm", "start"]
+CMD ["npm", "run", "dev"]

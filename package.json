@@ -2,10 +2,10 @@
     "name": "mood-diary",
     "version": "0.0.1",
     "description": "Mood Diary service for Mindtastic",
-    "main": "server.js",
+    "main": "./app/server.js",
     "scripts": {
-        "start": "node server.js",
-        "devStart": "npx nodemon -max-old-space-size=4096 -L app/server.js"
+        "start": "node ./app/server.js",
+        "dev": "npx nodemon -L app/server.js"
     },
     "repository": {
         "type": "git",
