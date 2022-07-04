@@ -50,13 +50,11 @@ module.exports = app => {
         // Insert into mood_entries table.
         db.mood.create({
             author_id: user,
-            mood_day: req.body.day,
-            mood_type: req.body.type,
-            mood_descr: req.body.description
-        }).then(() => {
-            res.status(201).send({
-                message: "Created."
-            });
+            mood_day: req.body.mood_day,
+            mood_type: req.body.mood_type,
+            mood_descr: req.body.mood_descr,
+        }).then((created) => {
+            res.status(201).send(created);
         }).catch(err => {
             res.status(500).send(err)
         });
@@ -65,20 +63,23 @@ module.exports = app => {
     // Delete mood entry by id.
     app.delete('/diary/:id', (req, res) => {
         const entryID = Number(req.params.id)
+        if (!entryID) {
+            return res.status(400).send({ error: 'Invalid URI param: id' });
+        }
 
         // Delete from mood_entries table.
         db.mood.destroy({
             where: { id: entryID }
-        }).then(id => {
-            if (id == 1) {
-                res.status(204).send()
+        }).then(numDeleted => {
+            if (numDeleted === 1) {
+                res.status(204).end()
             } else {
                 res.status(404).send({
-                    message: "Cannot delete Mood Entry with id=${entryID}. Entry was not found."
+                    message: `Cannot delete Mood Entry with id=${entryID}. Entry was not found.`
                 })
             }
         }).catch(err => {
-            res.status(500).send.send(err)
+            res.status(500).send(err)
         })
     })
 
