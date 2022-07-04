@@ -3,16 +3,21 @@ const db = require("../db");
 const validateError = require('../middleware/validationError.js')
 
 module.exports = app => {
+    /* Apply middleware */
     app.use(authMiddleware);
+    defineRoutes(app);
+    /* Apply error handling middleware */
     app.use(validateError);
+};
+
+const defineRoutes = (app) => {
     //  Health Check.
     app.get('/health', (req, res) => {
         res.stauts(204).end();
     })
-
     
     // Fetch single mood diary entry by entry id.
-    app.get('/diary/:id', (req, res) => {
+    app.get('/diary/:id', (req, res, next) => {
         const id = req.params.id;
 
         // Find mood diary entry by param (timestamp or id) provided.
@@ -24,13 +29,11 @@ module.exports = app => {
                     message: "Cannot fetch Mood Entry with id=${id}. Entry was not found."
                 })
             }
-        }).catch(err => {
-            res.status(500).send(err)
-        });
+        }).catch(next)
     });
 
     // Get all mood diaries for userId provided in the header.
-    app.get('/diary', (req, res) => {
+    app.get('/diary', (req, res, next) => {
         const user = req.user.uid;
         // Find all mood entries matching authorId.
         db.mood.findAll({
@@ -40,13 +43,11 @@ module.exports = app => {
             }
         }).then((data) => {
             res.status(200).send(data)
-        }).catch(err => {
-            res.status(500).send(err)
-        })
+        }).catch(next)
     });
 
     // Add mood to diary.
-    app.post('/diary', (req, res) => {
+    app.post('/diary', (req, res, next) => {
         const user = req.user.uid;
         
         // Insert into mood_entries table.
@@ -57,13 +58,11 @@ module.exports = app => {
             mood_descr: req.body.mood_descr,
         }).then((created) => {
             res.status(201).send(created);
-        }).catch(err => {
-            res.status(500).send(err)
-        });
+        }).catch(next)
     });
 
     // Delete mood entry by id.
-    app.delete('/diary/:id', (req, res) => {
+    app.delete('/diary/:id', (req, res, next) => {
         const entryID = Number(req.params.id)
         if (!entryID) {
             return res.status(400).send({ error: 'Invalid URI param: id' });
@@ -80,9 +79,7 @@ module.exports = app => {
                     message: `Cannot delete Mood Entry with id=${entryID}. Entry was not found.`
                 })
             }
-        }).catch(err => {
-            res.status(500).send(err)
-        })
+        }).catch(next)
     })
 
     // TODO add tilt  routes
@@ -94,5 +91,4 @@ module.exports = app => {
 
         //TODO 
     })
-
-}
+};
