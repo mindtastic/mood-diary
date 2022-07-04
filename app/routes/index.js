@@ -1,6 +1,7 @@
 import db from '../db';
 import authMiddleware from '../middleware/auth';
 import validateError from '../middleware/validationError';
+import { pipe, usingPipe } from '../utils';
 
 const applyMiddlewares = (app) => {
   app.use(authMiddleware);
@@ -26,7 +27,7 @@ const defineRoutes = (app) => {
         res.status(200).send(data);
       } else {
         res.status(404).send({
-          message: 'Cannot fetch Mood Entry with id=${id}. Entry was not found.',
+          message: `Cannot fetch Mood Entry with id=${id}. Entry was not found.`,
         });
       }
     }).catch(next);
@@ -65,36 +66,35 @@ const defineRoutes = (app) => {
   app.delete('/diary/:id', (req, res, next) => {
     const entryID = Number(req.params.id);
     if (!entryID) {
-      return res.status(400).send({ error: 'Invalid URI param: id' });
+      res.status(400).send({ error: 'Invalid URI param: id' });
+      return;
     }
 
     // Delete from mood_entries table.
     db.mood.destroy({
       where: { id: entryID },
     }).then((numDeleted) => {
-      if (numDeleted === 1) {
-        res.status(204).end();
-      } else {
-        res.status(404).send({
+      if (numDeleted < 1) {
+        return res.status(404).send({
           message: `Cannot delete Mood Entry with id=${entryID}. Entry was not found.`,
         });
       }
+
+      return res.status(204).end();
     }).catch(next);
   });
 
   // TODO add tilt  routes
-  app.get('/tilt/', (req, res) => {
-    // TODO
-  });
-  // TODO add endpoint for motivator service, motivator calls mood diary return
-  app.get('/motivator/', (req, res) => {
+  // app.get('/tilt/', (req, res) => {
+  //   // TODO
+  // });
+  // // TODO add endpoint for motivator service, motivator calls mood diary return
+  // app.get('/motivator/', (req, res) => {
 
-    // TODO
-  });
+  //   // TODO
+  // });
 };
 
 export default (app) => {
-  applyMiddlewares(app);
-  defineRoutes(app);
-  applyErrorHandlers(app);
+  pipe(applyMiddlewares, defineRoutes, applyErrorHandlers)(app);
 };

@@ -4,13 +4,15 @@ import db from '../db';
 const authMiddleware = (req, res, next) => {
   const userId = req.get('X-User-Id');
   if (!userId) {
-    return res.status(401).json({ error: 'Unauthorized ' });
+    res.status(401).json({ error: 'Unauthorized ' });
+    return;
   }
 
   try {
     parseUUID(userId);
   } catch (e) {
-    return res.status(401).json({ error: 'Invalid userId' });
+    res.status(401).json({ error: 'Invalid userId' });
+    return;
   }
 
   db.user.findOrCreate({
