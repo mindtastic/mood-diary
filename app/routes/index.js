@@ -1,8 +1,8 @@
-const authMiddleware = require('../middleware/auth.js');
-const db = require("../db");
-const validateError = require('../middleware/validationError.js')
+import db from '../db';
+import authMiddleware from '../middleware/auth.js';
+import validateError from '../middleware/validationError.js';
 
-module.exports = app => {
+export default (app) => {
     /* Apply middleware */
     app.use(authMiddleware);
     defineRoutes(app);

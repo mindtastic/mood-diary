@@ -1,5 +1,5 @@
-const uuid = require('uuid');
-const db = require('../db');
+import { parse as parseUUID } from 'uuid';
+import db from '../db';
 
 const authMiddleware = (req, res, next) => {
     const userId = req.get('X-User-Id');
@@ -8,9 +8,7 @@ const authMiddleware = (req, res, next) => {
     }
 
     try {
-        
-        uuid.parse(userId);
-        
+        parseUUID(userId);
     } catch (e) {
         return res.status(401).json({ error: 'Invalid userId' });
     }
@@ -27,4 +25,4 @@ const authMiddleware = (req, res, next) => {
       }).catch (next);
 };
 
-module.exports = authMiddleware;
+export default authMiddleware;

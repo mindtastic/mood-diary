@@ -3,9 +3,10 @@
     "version": "0.0.1",
     "description": "Mood Diary service for Mindtastic",
     "main": "./app/server.js",
+    "type": "module",
     "scripts": {
-        "start": "node ./app/server.js",
-        "dev": "npx nodemon -L app/server.js"
+        "start": "node --experimental-specifier-resolution=node ./app/server.js",
+        "dev": "npx nodemon -L --experimental-specifier-resolution=node app/server.js"
     },
     "repository": {
         "type": "git",

@@ -1,4 +1,6 @@
-const {ValidationError} = require('sequelize')
+import sequelize from "sequelize";
+
+const ValidationError = sequelize.ValidationError;
 
 const validateError = (err, req, res, next) => {
     
@@ -13,6 +15,4 @@ const validateError = (err, req, res, next) => {
 }
 
 
-module.exports = validateError;
-
-
+export default validateError;

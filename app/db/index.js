@@ -1,5 +1,7 @@
-const Sequelize = require('sequelize');
-const dbConfig = require('./config/db.conf.js');
+import Sequelize from 'sequelize';
+import dbConfig from './config/db.conf';
+import createUserModel from './models/user';
+import createMoodModel from './models/mood';
 
 // Create database
 const sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, {
@@ -18,8 +20,8 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.user = require('./models/user.js')(sequelize, Sequelize);
-db.mood = require('./models/mood.js')(sequelize, Sequelize);
+db.user = createUserModel(sequelize, Sequelize);
+db.mood = createMoodModel(sequelize, Sequelize);
 
 
 // N:1 mood entires belongsto a user
@@ -27,9 +29,4 @@ db.mood.belongsTo(db.user,{ foreignKey: 'author_id' });
 // 1:N user can have multiple mood entries
 db.user.hasMany(db.mood, { foreignKey: 'author_id' });
 
-module.exports = db;
-
-
-
-
-
+export default db;
