@@ -1,8 +1,10 @@
-var authMiddleware = require('../middleware/auth.js');
+const authMiddleware = require('../middleware/auth.js');
 const db = require("../db");
+const validateError = require('../middleware/validationError.js')
 
 module.exports = app => {
     app.use(authMiddleware);
+    app.use(validateError);
     //  Health Check.
     app.get('/health', (req, res) => {
         res.stauts(204).end();
