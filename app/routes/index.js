@@ -1,27 +1,36 @@
 var authMiddleware = require('../middleware/auth.js');
-const { Op } = require("sequelize");
 const db = require("../db");
-// const MoodEntry = db.mood;
-// const User = db.user;
 
 module.exports = app => {
     app.use(authMiddleware);
+    //  Health Check.
+    app.get('/health', (req, res) => {
+        res.stauts(204).end();
+    })
 
-    // Get  entry by id. Return mood entry content {id, mood_day, mood_type, mood_descr}
+    
+    // Fetch single mood diary entry by entry id.
     app.get('/diary/:id', (req, res) => {
         const id = req.params.id;
-        console.log("Entry id:" + req.params.id);
 
-        db.mood.findByPk(id).then((data) => {
-            res.status(200).send(data)
+        // Find mood diary entry by param (timestamp or id) provided.
+        db.mood.findByPk(id).then(data => {
+            if (data) {
+                res.status(200).send(data)
+            } else {
+                res.status(404).send({
+                    message: "Cannot fetch Mood Entry with id=${id}. Entry was not found."
+                })
+            }
         }).catch(err => {
             res.status(500).send(err)
         });
     });
 
-    // Get All entries by user id. 
+    // Get all mood diaries for userId provided in the header.
     app.get('/diary', (req, res) => {
         const user = req.user.uid;
+        // Find all mood entries matching authorId.
         db.mood.findAll({
             limit: 30,
             where: {
@@ -34,9 +43,10 @@ module.exports = app => {
         })
     });
 
-    // Create a new mood entry.
+    // Add mood to diary.
     app.post('/diary', (req, res) => {
         const user = req.user.uid;
+        
         // Insert into mood_entries table.
         db.mood.create({
             author_id: user,
@@ -54,22 +64,32 @@ module.exports = app => {
 
     // Delete mood entry by id.
     app.delete('/diary/:id', (req, res) => {
-        const id = Number(req.params.id)
-        
+        const entryID = Number(req.params.id)
+
         // Delete from mood_entries table.
         db.mood.destroy({
-            where: { id: id }
-        }).then(num => {
-            if (num == 1) {
+            where: { id: entryID }
+        }).then(id => {
+            if (id == 1) {
                 res.status(204).send()
             } else {
-                res.status(400).send({
-                    message: `Cannot delete Mood Entry with id=${id}. Maybe the Entry was not found!`
+                res.status(404).send({
+                    message: "Cannot delete Mood Entry with id=${entryID}. Entry was not found."
                 })
             }
         }).catch(err => {
             res.status(500).send.send(err)
         })
+    })
+
+    // TODO add tilt  routes
+    app.get('/tilt/', (req, res) =>{
+        // TODO 
+    })
+    // TODO add endpoint for motivator service, motivator calls mood diary return 
+    app.get('/motivator/', (req, res) =>{
+
+        //TODO 
     })
 
 }
