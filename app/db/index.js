@@ -23,9 +23,8 @@ db.sequelize = sequelize;
 db.user = createUserModel(sequelize, Sequelize);
 db.mood = createMoodModel(sequelize, Sequelize);
 
-
 // N:1 mood entires belongsto a user
-db.mood.belongsTo(db.user,{ foreignKey: 'author_id' });
+db.mood.belongsTo(db.user, { foreignKey: 'author_id' });
 // 1:N user can have multiple mood entries
 db.user.hasMany(db.mood, { foreignKey: 'author_id' });
 
