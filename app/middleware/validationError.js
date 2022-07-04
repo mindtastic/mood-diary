@@ -1,18 +1,15 @@
-const {ValidationError} = require('sequelize')
+import sequelize from 'sequelize';
+
+const { ValidationError } = sequelize;
 
 const validateError = (err, req, res, next) => {
-    
-    if(err instanceof ValidationError){
+  if (err instanceof ValidationError) {
+    res.status(422).send({
+      error: err.message,
+    });
+    return;
+  }
+  next(err);
+};
 
-        return res.status(422).send({
-            error: err.message
-        });
-    } 
-    next(err);
-
-}
-
-
-module.exports = validateError;
-
-
+export default validateError;

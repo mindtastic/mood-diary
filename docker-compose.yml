@@ -1,10 +1,5 @@
 version: '3.8'
 
-volumes:
-  postgres:
-  pgadmin:
-
-
 services:
   postgres:
     image: postgres:14.1-alpine
@@ -34,9 +29,17 @@ services:
       - ./pgadmin/config/servers.json:/pgadmin4/servers.json
 
   mood-diary:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
     container_name: mood-diary
+    volumes:
+      - ./app:/mood/app
     depends_on:
       - postgres
     ports:
       - 8888:80
+
+volumes:
+  postgres:
+  pgadmin:
