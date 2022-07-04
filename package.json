@@ -5,7 +5,7 @@
     "main": "server.js",
     "scripts": {
         "start": "node server.js",
-        "devStart": "npx nodemon -L app/server.js"
+        "devStart": "npx nodemon -max-old-space-size=4096 -L app/server.js"
     },
     "repository": {
         "type": "git",
