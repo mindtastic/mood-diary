@@ -1,6 +1,7 @@
 import db from '../db';
 import authMiddleware from '../middleware/auth';
 import validateError from '../middleware/validationError';
+import { notFoundError, serverError } from '../middleware/defaultError';
 import { usingPipe } from '../utils';
 
 const applyMiddlewares = (app) => {
@@ -8,7 +9,9 @@ const applyMiddlewares = (app) => {
 };
 
 const applyErrorHandlers = (app) => {
+  app.use(notFoundError);
   app.use(validateError);
+  app.use(serverError);
 };
 
 const defineRoutes = (app) => {
