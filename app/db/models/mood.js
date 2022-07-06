@@ -27,7 +27,7 @@ export default (sequelize, DataTypes) => {
     mood_descr: {
       type: DataTypes.STRING,
       validate: {
-        isAlphanumeric: true, // only allow alphanumeric characters
+        len: [1, 800], // only allow alphanumeric characters
       },
     },
   }, {
