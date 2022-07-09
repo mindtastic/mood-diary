@@ -4,7 +4,7 @@ export default {
   password: process.PASSWORD,
   database: process.env.DBNAME,
   dialect: 'postgres',
-  dialectOptions:{
+  dialectOptions: {
     options: {
       encrypt: true,
     }
