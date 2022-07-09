@@ -4,6 +4,11 @@ export default {
   password: process.PASSWORD,
   database: process.env.DBNAME,
   dialect: 'postgres',
+  dialectOptions:{
+    options: {
+      encrypt: true,
+    }
+  },
   pool: {
     max: 5,
     min: 0,
