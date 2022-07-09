@@ -3,7 +3,7 @@ export default {
   username: process.env.USER,
   password: process.PASSWORD,
   database: process.env.DBNAME,
-  dialect: 'postgress',
+  dialect: 'postgres',
   pool: {
     max: 5,
     min: 0,
