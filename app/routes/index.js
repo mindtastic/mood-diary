@@ -89,7 +89,7 @@ const defineRoutes = (app) => {
   });
 
   // Get Tilt schema for mood diary
-  app.get('/tilt', (req, res) => {
+  app.get('/tilt/diary', (req, res) => {
     res.status(200).json(tilt);
   });
 };
