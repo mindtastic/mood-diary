@@ -3,8 +3,7 @@ import authMiddleware from '../middleware/auth';
 import validateError from '../middleware/validationError';
 import { notFoundError, serverError } from '../middleware/defaultError';
 import { usingPipe } from '../utils';
-import tilt from '../tilt/mood_tilt.json' assert { type: 'json' }
-
+import tilt from '../tilt/mood_tilt.json' assert { type: 'json' };
 
 const applyMiddlewares = (app) => {
   app.use(authMiddleware);
