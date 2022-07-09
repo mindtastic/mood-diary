@@ -6,7 +6,6 @@ export default (sequelize, DataTypes) => {
       allowNull: false,
     },
   }, {
-    schema: 'dev',
     tableName: 'users',
     timestamps: false,
   });

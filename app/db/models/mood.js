@@ -32,7 +32,6 @@ export default (sequelize, DataTypes) => {
       },
     },
   }, {
-    schema: 'dev',
     tableName: 'mood_entries',
     timestamps: false,
   });
