@@ -93,9 +93,10 @@ const defineRoutes = (app) => {
   app.get('/tilt', (req, res) => {
     res.status(200).json(tilt);
   });
-
 };
 
-export default (app) => {
+const applyMoodRoutes = (app) => {
   usingPipe(app, applyMiddlewares, defineRoutes, applyErrorHandlers);
 };
+
+export default applyMoodRoutes;
