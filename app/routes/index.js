@@ -3,6 +3,8 @@ import authMiddleware from '../middleware/auth';
 import validateError from '../middleware/validationError';
 import { notFoundError, serverError } from '../middleware/defaultError';
 import { usingPipe } from '../utils';
+import { spawn } from 'child_process';
+
 
 const applyMiddlewares = (app) => {
   app.use(authMiddleware);
@@ -87,15 +89,28 @@ const defineRoutes = (app) => {
     }).catch(next);
   });
 
-  // TODO add tilt  routes
-  // app.get('/tilt/', (req, res) => {
-  //   // TODO
-  // });
-  // // TODO add endpoint for motivator service, motivator calls mood diary return
-  // app.get('/motivator/', (req, res) => {
+  // Get Tilt schema for mood diary
+  app.get('/tilt', (req, res) => {
+    var process = spawn('python3', ['app/tilt/mood_tilt.py']);
+    var tilt_data = [];
+    
+    process.stdout.on('data', function (data) {
+      tilt_data.push(data);  
+     });
 
-  //   // TODO
-  // });
+    process.stderr.on('data', data => {
+      console.error(`stderr: ${data}`);
+    })
+
+     process.on('close', (code) => {
+      console.log(`child process close all stdio with code ${code}`);
+      // send tilt schema 
+      res.send(tilt_data.join(""));
+      });
+
+  });
+  
+
 };
 
 export default (app) => {
