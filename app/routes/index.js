@@ -3,6 +3,8 @@ import authMiddleware from '../middleware/auth';
 import validateError from '../middleware/validationError';
 import { notFoundError, serverError } from '../middleware/defaultError';
 import { usingPipe } from '../utils';
+import tilt from '../tilt/mood_tilt.json' assert { type: 'json' }
+
 
 const applyMiddlewares = (app) => {
   app.use(authMiddleware);
@@ -87,15 +89,11 @@ const defineRoutes = (app) => {
     }).catch(next);
   });
 
-  // TODO add tilt  routes
-  // app.get('/tilt/', (req, res) => {
-  //   // TODO
-  // });
-  // // TODO add endpoint for motivator service, motivator calls mood diary return
-  // app.get('/motivator/', (req, res) => {
+  // Get Tilt schema for mood diary
+  app.get('/tilt', (req, res) => {
+    res.status(200).json(tilt);
+  });
 
-  //   // TODO
-  // });
 };
 
 export default (app) => {
