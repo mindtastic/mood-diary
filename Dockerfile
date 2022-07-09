@@ -1,7 +1,7 @@
 FROM node:alpine
 
 # Set working directory
-WORKDIR /mood
+WORKDIR /app
 
 # Copies project requirements into working directory
 COPY package*.json ./
