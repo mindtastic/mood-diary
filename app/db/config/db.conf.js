@@ -1,9 +1,9 @@
 export default {
-  host: 'postgres',
-  username: 'root',
-  password: 'root',
-  database: 'diary',
-  dialect: 'postgres',
+  host: process.env.HOST,
+  username: process.env.USER,
+  password: process.PASSWORD,
+  database: process.env.DBNAME,
+  dialect: process.env.DBNAME,
   pool: {
     max: 5,
     min: 0,
