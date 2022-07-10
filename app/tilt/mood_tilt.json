@@ -2,7 +2,7 @@
     "dataDisclosed": [
         {
             "_id": "mood-service-tilt-01",
-            "category": "Diary entiry",
+            "category": "Diary entry",
             "purposes": [
                 {
                     "description": "For storing users mood diary entries.",
