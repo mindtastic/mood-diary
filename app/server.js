@@ -10,6 +10,11 @@ app.use(express.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 
+//  Health Check.
+app.get('/health', (req, res) => {
+    res.status(200).end();
+});
+
 applyMoodRoutes(app);
 
 db.sequelize.authenticate().then(() => console.log('\x1b[32m', 'Successfully authenticated to PostgreSQL', '\x1b[0m'));
@@ -18,8 +23,4 @@ db.sequelize.sync({ force: true }).then(() => console.log('\x1b[32m', 'Successfu
 const PORT = process.env.PORT || 80;
 app.listen(PORT, () => {
     console.log(`Server is running at https://localhost:${PORT}`);
-});
-//  Health Check.
-app.get('/health', (req, res) => {
-    res.status(200).end();
 });
