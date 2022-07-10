@@ -17,9 +17,9 @@ db.sequelize.sync({ force: true }).then(() => console.log('\x1b[32m', 'Successfu
 
 const PORT = process.env.PORT || 80;
 app.listen(PORT, () => {
-  console.log(`Server is running at https://localhost:${PORT}`);
+    console.log(`Server is running at https://localhost:${PORT}`);
 });
 //  Health Check.
-  app.get('/health', (req, res) => {
-    res.status(204).end();
-  });
+app.get('/health', (req, res) => {
+    res.status(200).end();
+});
