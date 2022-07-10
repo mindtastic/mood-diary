@@ -10,4 +10,3 @@ CREATE TABLE mood_entries (
     author_id UUID references users(uid) NOT NULL
 );
 
-
