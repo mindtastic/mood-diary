@@ -4,8 +4,16 @@ import createUserModel from './models/user';
 import createMoodModel from './models/mood';
 
 // Create database
-const sequelize = new Sequelize(process.env.CONNECTION_STRING);
-
+const sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, {
+    host: dbConfig.host,
+    dialect: dbConfig.dialect,
+    pool: {
+      max: dbConfig.pool.max,
+      min: dbConfig.pool.min,
+      acquire: dbConfig.pool.acquire,
+      idle: dbConfig.pool.idle,
+    },
+});
 const db = {};
 
 db.Sequelize = Sequelize;
