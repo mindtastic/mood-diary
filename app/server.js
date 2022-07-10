@@ -19,3 +19,7 @@ const PORT = process.env.PORT || 80;
 app.listen(PORT, () => {
   console.log(`Server is running at https://localhost:${PORT}`);
 });
+//  Health Check.
+  app.get('/health', (req, res) => {
+    res.status(204).end();
+  });
