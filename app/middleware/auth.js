@@ -1,4 +1,3 @@
-import { parse as parseUUID } from 'uuid';
 import db from '../db';
 
 const authMiddleware = (req, res, next) => {
@@ -8,6 +7,8 @@ const authMiddleware = (req, res, next) => {
         next();
         return null;
     }
+
+    console.log(userId);
 
     db.user.findOrCreate({
         where: {
