@@ -3,8 +3,26 @@ import dbConfig from './config/db.conf';
 import createUserModel from './models/user';
 import createMoodModel from './models/mood';
 
+//const connString = process.env.CONNECTION_STRING || 'postgres://root:root@postgres:5432/diary';
+
+let sequelize = {};
+
 // Create database
-const sequelize = new Sequelize(process.env.CONNECTION_STRING);
+if (process.env.MODE === 'DEV') {
+    sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, {
+        host: dbConfig.host,
+        dialect: dbConfig.dialect,
+        pool: {
+            max: dbConfig.pool.max,
+            min: dbConfig.pool.min,
+            acquire: dbConfig.pool.acquire,
+            idle: dbConfig.pool.idle,
+        },
+    }
+    );
+} else {
+    sequelize = new Sequelize(process.env.CONNECTION_STRING);
+}
 
 const db = {};
 
