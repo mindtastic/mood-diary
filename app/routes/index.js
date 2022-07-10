@@ -16,10 +16,6 @@ const applyErrorHandlers = (app) => {
 };
 
 const defineRoutes = (app) => {
-  //  Health Check.
-  app.get('/health', (req, res) => {
-    res.status(204).end();
-  });
 
   // Fetch single mood diary entry by entry id.
   app.get('/diary/:id', (req, res, next) => {

@@ -1,7 +1,7 @@
 {
     "dataDisclosed": [
         {
-            "_id": "user-service-tilt-01",
+            "_id": "mood-service-tilt-01",
             "category": "Language Preference",
             "legalBases": [
                 {
@@ -27,8 +27,8 @@
             },
             "purposes": [
                 {
-                    "description": "To provide the user-service-tilt",
-                    "purpose": "To provide the user-service-tilt"
+                    "description": "To provide the mood-service-tilt",
+                    "purpose": "To provide the mood-service-tilt"
                 }
             ],
             "recipients": [
@@ -52,7 +52,7 @@
                     ],
                     "temporal": [
                         {
-                            "description": "Temporal element for the user-service-tilt",
+                            "description": "Temporal element for the mood-service-tilt",
                             "ttl": ""
                         }
                     ]

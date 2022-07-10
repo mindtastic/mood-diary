@@ -11,8 +11,12 @@ app.use(express.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
 log.info('Initialized logger');
+
+//  Health Check.
+app.get('/health', (req, res) => {
+    res.status(200).end();
+});
 
 applyMoodRoutes(app);
 
