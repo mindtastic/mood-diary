@@ -11,11 +11,12 @@ app.use(express.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 
-log.info('Initialized logger');
+log.setLevel('debug');
+log.info('\x1b[32m', 'Initialized logger', '\x1b[0m');
 
 //  Health Check.
 app.get('/health', (req, res) => {
-    res.status(200).end();
+  res.status(200).end();
 });
 
 applyMoodRoutes(app);
@@ -25,7 +26,7 @@ db.sequelize.authenticate()
   .catch((e) => log.error(`Error connecting to database: ${e}`));
 
 db.sequelize.sync({ force: true })
-  .then(() =>  log.info('Successfully authenticated to PostgreSQL'))
+  .then(() => log.info('Successfully authenticated to PostgreSQL'))
   .catch((e) => {
     log.error(`Error running migrations: ${e}`);
     log.trace(e);

@@ -1,3 +1,4 @@
+import log from 'loglevel';
 import db from '../db';
 import authMiddleware from '../middleware/auth';
 import validateError from '../middleware/validationError';
@@ -16,7 +17,6 @@ const applyErrorHandlers = (app) => {
 };
 
 const defineRoutes = (app) => {
-
   // Fetch single mood diary entry by entry id.
   app.get('/diary/:id', (req, res, next) => {
     const { id } = req.params;
@@ -35,8 +35,12 @@ const defineRoutes = (app) => {
 
   // Get all mood diaries for userId provided in the header.
   app.get('/diary', (req, res, next) => {
+    log.debug('\x1b[32m', '[GET /diary]', 'User:', req.user, '\x1b[0m');
+
     const user = req.user.uid;
     // Find all mood entries matching authorId.
+    log.debug('\x1b[32m', '[GET /diary]', 'User ID:', user, '\x1b[0m');
+
     db.mood.findAll({
       limit: 30,
       where: {
@@ -49,7 +53,11 @@ const defineRoutes = (app) => {
 
   // Add mood to diary.
   app.post('/diary', (req, res, next) => {
+    log.debug('\x1b[32m', '[POST /diary]', 'User:', req, '\x1b[0m');
+
     const user = req.user.uid;
+
+    log.info('\x1b[32m', '[POST /diary]', 'User ID:', user, '\x1b[0m');
 
     // Insert into mood_entries table.
     db.mood.create({
