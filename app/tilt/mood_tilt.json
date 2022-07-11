@@ -5,7 +5,11 @@
             "category": "Diary entry",
             "purposes": [
                 {
-                    "description": "For storing users mood diary entries.",
+                    "description": "Storing the user's mood diary",
+                    "purpose": "Mood"
+                },
+                {
+                    "description": "Providing analytics to the users based on their mood",
                     "purpose": "Mood"
                 }
             ],
@@ -13,9 +17,17 @@
                 {
                     "reference": "GDPR-99-1-a",
                     "description": "General Data Protection Regulation (GDPR) Art."
+                },
+                {
+                    "reference": "GDPR-99-2-b",
+                    "description": "General Data Protection Regulation (GDPR) Art."
                 }
             ],
             "legitimateInterests": [
+                {
+                    "exists": true,
+                    "reasoning": "There is an legitimate interest based on highly sensitive data."
+                },
                 {
                     "exists": true,
                     "reasoning": "There is an legitimate interest based on highly sensitive data."
@@ -41,20 +53,20 @@
                 {
                     "temporal": [
                         {
-                             "description": "Creating backups.",
-                             "ttl": "2022-07-10T18:31:42P3Y6M4DT12H30M17S"
+                            "description": "Creating backups.",
+                            "ttl": "2022-07-10T18:31:42P3Y6M4DT12H30M17S"
                         },
                         {
                             "description": "Longtime storage.",
                             "ttl": "2005-08-09T18:31:42P3Y6M4DT12H30M17S"
-                       }
+                        }
                     ],
                     "aggregationFunction": "max",
                     "legalBasisConditional": [
                         "SGB-100-42"
                     ],
                     "purposeConditional": [
-                        "Data is stored until account get's removed."
+                        "Data is stored until account is deleted"
                     ]
                 }
             ]
